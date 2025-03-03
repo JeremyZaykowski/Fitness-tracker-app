@@ -21,7 +21,7 @@ A web application that allows users to log workouts, view saved exercises, and t
 ---
 
 ## Project Structure
-Fitness-tracker-app/ │ ├── CSS/ # Custom stylesheets │ └── app.css │ ├── js/ # JavaScript files │ └── app.js │ ├── images/ # Image assets │ ├── gymmm.jpeg │ └── fitness library.png │ ├── index.html # Main HTML file └── README.md # Project documentation
+Fitness-tracker-app/ ├── CSS/ # Custom stylesheets │ ├── app.css ├── js/ # JavaScript files │ ├── app.js ├── images/ # Image assets │ ├── gymmm.jpeg │ ├── fitness library.png ├── index.html # Main HTML file ├── README.md # Project documentation └── LICENSE # License information
 
 
 ---
