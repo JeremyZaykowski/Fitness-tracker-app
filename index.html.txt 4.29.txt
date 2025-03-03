@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <div class="text-center">
+    <title>Fitness Library</title>
+    </div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 4 References -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <!-- Link to FontAwesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- Embedded Custom CSS -->
+    <style>
+        
+        /* Reset default body styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Apply background image to the login page */
+        #div-login {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    background-image: url('images/gymmm.jpeg');
+    background-size: cover; /* Scale the background image to cover the entire element */
+    background-position: center; /* Center the background image within the element */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+    height: 100vh; /* Ensure the body takes up the full viewport height */
+    width: 100vw; /* Ensure the body takes up the full viewport width */
+    overflow: hidden; /* Prevent scrolling if content overflows */
+        }
+
+        #div-signup {
+    margin: 0;
+    padding: 0;
+    background-image: url('images/gymmm.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 130vh; /* Set minimum height to cover the viewport height */
+    min-width: 100vw; /* Set minimum width to cover the viewport width */
+    overflow: hidden;
+}
+
+    </style>
+    
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="CSS/app.css">
+    <!-- Your custom JavaScript -->
+    <script src="js/app.js"></script>
+
+    <!-- Link to image for the favicon -->
+    <link rel="icon" href="images/fitness library.png">
+</head>
+
+<body>
+
+    <body>
+
+
+    <div id="main-content">
+</body>
+
+<!-- Top Navigation Bar -->
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+    <!-- Logo -->
+      <a class ="navbar-brand" href="index.html">
+          <img alt="Fitness Logo" src="images/fitness library.png" style="width:40px;">
+          &nbsp;&nbsp;Fitness Library
+      </a>
+    
+    <!--Menu sets on the right -->
+    <!--Each individual item can be secured by adding the class: secured -->
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item secured">
+            <a id="link-home" class="nav-link" href="#"><i class="fa fa-home"></i> Home </a>
+        </li>
+    </ul>    
+</nav>
+
+<br><br><br><br>
+
+<!--Start container for BS4 (Bootstrap 4) card layout-->
+
+<style>
+    #link-addexercise,
+    #link-manage,
+    #link-logout {
+    color: white;
+}
+</style>
+
+<div id="container-2col" class="container-fluid" style="display:none;">
+    <div class="row">
+        <div class="col-md-2 navcolumn">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item secured">
+                    <a id="link-addexercise" class="nav-link" href="#"><i class="fa fa-plus"></i> Add Excerises </a>
+                </li>
+                <li class="nav-item secured">
+                    <a id="link-manage" class="nav-link" href="#"><i class="fa fa-list"></i> Saved Workouts </a>
+                </li>
+                <li class="nav-item secured">
+                    <a id="link-logout" class="nav-link" href="#"><i class="fa fa-sign-out"></i> Logout </a>
+                </li>
+            </ul> 
+        </div>
+
+        
+        
+        <div class="col-md-10 content-wrapper" id="div-addexercise" style="display: none;">
+            
+            <style>
+             #div-addexercise {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+            </style>
+
+            
+            <h1>Add a New Exercise</h1>
+        
+            
+            <form id="form-addbodypart">
+
+                <label for="bodypart">Choose a body part to see exercises for it:</label>
+                <select name="bodypart" id="bodypart">
+                <option value="back">Back</option>
+                <option value="chest">Chest</option>
+                <option value="lower%20arms">Lower Arms</option>
+                <option value="lower%20legs">Lower Legs</option>
+                <option value="neck">Neck</option>
+                <option value="shoulders">Shoulders</option>
+                <option value="upper%20arms">Upper Arms</option>
+                <option value="upper%20legs">Upper Legs</option>
+                <option value="waist">Waist</option>
+                <option value="cardio">Cardio</option>
+
+                </select>
+                
+                
+            
+                <br>
+                
+                </head>
+            <body>
+
+<style>
+                    /* Custom styles for buttons */
+                    .custom-btn {
+                        font-size: 1em;
+                        width: 150px; /* Adjust width as needed */
+                        margin-bottom: 20px; /* Add margin for spacing between buttons */
+                        text-align: center;
+                        display: block;
+                        padding: 10px;
+                        border-radius: 5px;
+                    }
+            
+                    /* Style for the primary button */
+                    #btn-addexercise {
+                        background-color: #35937a; /* Blue color */
+                        color: #fff; /* White text */
+                    }
+            
+                    /* Style for the secondary button */
+                    #btn-cancelexercise {
+                        background-color: #5b6d7d; /* Grey color */
+                        color: #fff; /* White text */
+                    }
+            
+                    /* Center the buttons horizontally */
+                    .text-center {
+                        text-align: center;
+                    }
+
+                    #btn-addexercise,
+                    #btn-cancelexercise {
+    font-size: 1.5em;
+    
+    position: relative; /* Use relative positioning */
+    left: 50%; /* Move the button 50% to the right (initial center position) */
+    transform: translateX(-50%); /* Move the button back by 50% of its own width to center it */
+    white-space: nowrap; /* Prevent text from wrapping to maintain inline layout */
+}
+
+                </style>
+            
+
+
+                <div  class="text-center">
+                <div><i id="progressicon" class="fa fa-spinner fa-spin" style="padding:5px;font-size:36px;display:none;"></i></div>
+                <br>
+                <input type="button" class="btn btn-primary" id="btn-addexercise" value="See Exercises" style="font-size:1.5em;width:200%;" >
+                </div> <br> 
+                <div  class="text-center">
+                <input type="button" class="btn btn-secondary" id="btn-cancelexercise" value="Cancel" style="font-size:1.5em;width:200%;" >
+                </div>
+                <br>
+                <div id="addevent_message" ></div>
+                <br>
+            </form>
+            <div id="cards_items" style="width:100%"></div>
+        
+        </body>
+        </div>      
+
+        <div class="col-md-10 content-wrapper" id="cards_items" class="content-wrapper">
+            <div class="col-md-10 content-wrapper" id="cards_items">
+                <div id="cards_items" style="width:100%"></div>
+                <br>
+                <div id="cards_message" class="alert alert-info" style="display:none;">There are no current events</div>
+                
+                <!-- Button to move cards_message -->
+                <div class="text-center">
+                    <button class="btn btn-primary" onclick="moveCardsMessage()">Move Cards Message</button>
+                </div>
+            </div> 
+       
+            
+            <!-- 
+            <div class="card">
+                <div class="card-header">Header</div>
+                <div class="card-body">Content</div>
+                <div class="card-footer">
+                    <input onclick="startevent(1)" type="button" value="Primary" class="btn btn-primary">
+                </div>
+            </div>
+            //-->
+            <div id="cards_items" style="width:100%"></div>
+            <br>
+            <div id="cards_message" class="alert alert-info" style="display:none;">There are no current events</div>
+        </div>
+<!--
+        <script>
+   function moveCardsMessage() {
+        // Get the cards_message element
+        let cardsMessage = document.getElementById('cards_message');
+        
+        // Check if cards_message exists and it's hidden
+        if (cardsMessage && cardsMessage.style.display === 'none') {
+            // Show the cards_message
+            cardsMessage.style.display = 'block';
+            
+            // Move the cards_message to div-manage under table-archivedevents
+            let manageTable = document.getElementById('table-archivedevents');
+            if (manageTable) {
+                // Create a new row in the manageTable
+                let newRow = manageTable.insertRow();
+                let cell = newRow.insertCell(0);
+                cell.innerHTML = cardsMessage.innerHTML; // Copy cards_message content
+                
+                // Hide cards_message in its original location
+                cardsMessage.style.display = 'none'; 
+            }
+        }
+    }
+</script>
+-->
+
+
+        <div class="col-md-10 content-wrapper " id="div-manage" style="display: none;">
+            <h1>Current Exercises</h1>
+            view saved exercises
+
+
+
+            <table id="table-currentevents" class="table table-bordered">
+                <tr><th>Excercise Name</th></tr>
+            </table>
+            <div id="manage1_message" class="alert alert-info" style="display:none;">There are no current events</div>
+            
+
+            <br>
+            <h1>Favorite Exercises</h1>
+            <table id="table-archivedevents" class="table table-bordered">
+        
+                <tr><th>Exercise Name</th></tr>                
+            </table>
+            <div id="manage2_message" class="alert alert-info" style="display:none;">There are no archived events</div>
+            <br>
+
+            
+
+            <!-- utility forms here-->
+            
+            <form id="form-SavedEvents">
+                <input type="hidden" id="createdby2" name="createdby">
+                <input type="hidden" id="eventcode-current" name="eventcode">
+                <input type="hidden" name="archived" value="N">
+            </form>
+            <form id="form-archivedevents">
+                <input type="hidden" id="createdby3" name="createdby">
+                <input type="hidden" id="eventcode-archived" name="eventcode">
+                <input type="hidden" name="archived" value="Y">
+            </form>
+        </div>
+
+    </div>
+</div> <!-- card conainer //-->
+
+
+<!--Start container for BS4 (Bootstrap 4) page layout-->
+<style>
+#div-login label {
+    font-size: 20px;
+}
+</style>
+
+<div id="container-3col" class="container-fluid" style="display:none;">
+
+    <div class="row">
+        <div class="col-md-10"></div>
+
+        <div class="col-md-12 content-wrapper " id="div-login" style="display: none;">
+            <div class="text-center">
+                <form id='form-login'>
+                    <br> <br> <br>
+                    <label for="username">Username:</label> 
+                <input type="text" name="username" id="username" placeholder="Username:" class="form-control" >
+                <label for="password" style="display:none;">Password:</label> 
+                <input type="password" name="password" id="password" placeholder="Password:" class="form-control" >
+                <br> <br> <br>
+            </div>
+            
+                <div class="text-center">
+                <input type="button" value="Login" id="btnLogin" class="btn btn-primary" style="font-size:1.75em;width:50%;" >
+                </div>
+                <br>
+                <input type="button" value="Sign Up" id="btnSignup" class="btn btn-secondary" style="font-size:1.75em;width:50%;" >
+                <br>
+                <div id='login_message' class="">
+                </div>
+            </form>
+        </div>
+
+<style>
+   #div-signup label[for="firstname"],
+   #div-signup label[for="lastname"],
+   #div-signup label[for="firstname"],
+   #div-signup label[for="username2"],
+   #div-signup label[for="password2"],
+   #div-signup label[for="confirmation"],
+   #div-signup label[for="email"]{
+    display: block;
+    text-align: center;
+}
+
+#div-signup {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 60vh;
+    margin-bottom: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+
+</style>
+
+        <div class="col-md-10 content-wrapper " id="div-signup" style="display: none;">
+            <br>
+            <h1> Sign Up </h1>
+<br><br>
+            <form id='form-signup'>
+                
+                <label for="firstname">First Name:</label> 
+                <input type="text" name="firstname" id="firstname" placeholder="First Name:" class="form-control" style="width:70%;">
+                <label for="lastname">Last Name:</label> 
+                <input type="text" name="lastname" id="lastname" placeholder="Last Name:" class="form-control" style="width:70%;">
+                <label for="username2">Username:</label> 
+                <input type="text" name="username" id="username2" placeholder= "Username:" class="form-control" style="width:70%;">
+                <label for="password2">Password:</label> 
+                <input type="password2" name="password" id="password2" placeholder="Password:" class="form-control" style="width:70%;">
+                <label for="confirmation">Confirmation:</label> 
+                <input type="confirmation" name="confirmation" id="confirmation" placeholder= "Confirmation Password:" class="form-control" style="width:70%;">
+                <label for="email">Email</label> 
+                <input type="text" name="email" id="email" placeholder= "Email:" class="form-control" style="width:70%;" >
+                <br>
+                <div id='MakeAccount_message' class=""></div>
+                <br><br>
+                <div class="text-center">
+
+                    <style>
+
+                    </style>
+                    <input type="button" value="Make Account" id="btnMakeAccount" class="btn btn-primary" style="font-size:2em;width:70%;" >
+                    <br>
+                <input type="button" value="Cancel" id="btnCancel" class="btn btn-secondary" style="font-size:2em;width:70%;" >
+                </div>   
+            </form>
+        </div>
+
+        <div class="col-md-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+                &nbsp;
+        </div>
+    </div>
+
+</div> <!-- page container //-->
+<!-- 
+<script>
+    function moveToCurrentEvents(button) {
+      let row = button.parentNode.parentNode;
+      document.getElementById('table-archivedevents').deleteRow(row.rowIndex);
+      document.getElementById('table-currentevents').appendChild(row);
+    }
+    </script>
+
+
+*/<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Cards Example</title>
+    <script>
+        function moveToCurrentEvents(button) {
+            let row = button.parentNode.parentNode;
+            document.getElementById('table-archivedevents').deleteRow(row.rowIndex);
+            document.getElementById('table-currentevents').appendChild(row);
+        }
+    </script>
+</head>
+<body>
+    <table id="table-archivedevents">
+         //Card rows with Start buttons
+        <tr>
+            <td>Card Name 1</td>
+            <td><input onclick="moveToCurrentEvents(this)" type="button" value="Start" class="btn btn-primary"></td>
+        </tr>
+        <tr>
+            <td>Card Name 2</td>
+            <td><input onclick="moveToCurrentEvents(this)" type="button" value="Start" class="btn btn-primary"></td>
+        </tr>
+    </table>
+
+    <table id="table-currentevents">
+         Placeholder for current events
+        <tr>
+            <th>Current Events</th>
+        </tr>
+    </table>
+</body>
+
+
+<table id="table-archivedevents">
+    Archived events rows with Start buttons 
+    <tr>
+        <td>Card Name 1</td>
+        <td><input onclick="moveToCurrentEvents(this)" type="button" value="Start" class="btn btn-primary"></td>
+    </tr>
+     More rows here 
+</table>
+
+<table id="table-currentevents">
+    Placeholder for current events 
+    <tr>
+        <th>Current Events</th>
+    </tr>
+</table>
+-->
+
+
+
+
+<div class="container-fluid bg-dark text-white">
+    <div class="row">
+        <div class="col-md-12 text-center">
+        &copy; 2024 Fitness Library
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            &nbsp; <!-- place holder for additional footer content -->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

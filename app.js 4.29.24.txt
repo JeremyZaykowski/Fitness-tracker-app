@@ -1,0 +1,557 @@
+"use strict";
+
+/* SOME CONSTANTS */
+let endpoint01 = "https://w2zz78ulhk.execute-api.us-east-1.amazonaws.com/default/Project5";
+let endpoint02 = "https://exercisedb.p.rapidapi.com/exercises";
+
+/* SUPPORTING FUNCTIONS */
+
+let makecurrentController = (theeventcode) => {
+    $("#eventcode-current").val(theeventcode);
+    let the_serialized_data = $("#form-currentevents").serialize();
+    console.log(the_serialized_data);
+    $.ajax({
+        url : endpoint01 + "/events", //this used to be /archive
+        method : "PATCH",
+        data: the_serialized_data,
+        success: (results)=>{
+            console.log(results);
+            manageController();
+        },
+        error: (data)=>{
+            console.log(data);
+            console.log("Unexpected error");
+        }
+    })
+}
+
+let archiveController = (theeventcode) => {
+    $("#eventcode-archived").val(theeventcode);
+    let the_serialized_data = $("#form-archivedevents").serialize();
+    console.log(the_serialized_data);
+    $.ajax({
+        url : endpoint01 + "/archived", //shouldnt i change this?
+        method : "PATCH",
+        data: the_serialized_data,
+        success: (results)=>{
+            console.log(results);
+            manageController();
+        },
+        error: (data)=>{
+            console.log(data);
+            console.log("Unexpected error");
+        }
+    })
+}
+
+let manageController = () => {
+    $(".content-wrapper").hide();   
+    $("#div-manage").show(); 
+    refreshCurrentEvents();
+    refreshArchivedEvents();
+}
+
+let refreshSavedEvents = () => {
+    $("#manage2_message").hide();
+    let txtHeaderRow = "<tr><th>Exercise Name</th></tr>";
+    $("#table-archivedevents").html(txtHeaderRow);  
+    let the_serialized_data = $("#form-archivedevents").serialize();
+    console.log(the_serialized_data);
+    $.ajax({
+        url: endpoint01 + "/events",
+        method: "GET",
+        data: the_serialized_data,
+        success: (results)=>{
+            console.log(results);
+            if (results.length == 0){
+                $("#manage2_message").show();
+            }   
+            for(let i=0;i< results.length;i++){
+                let eventcode = results[i]["eventcode"];
+                let eventname = results[i]["eventname"];// on line 74 i changed value from "Make Current" to "Start"
+                let rowtemplate = `<tr><td>${eventname}  
+                <input onclick="makecurrentController('${eventcode}')" 
+                value="Make Current" type="button" class="btn btn-primary float-right"> 
+                </td></tr>`;
+                $("#table-archivedevents").append(rowtemplate);         
+            }       
+        },
+        error: (data)=>{
+            console.log("Unexpected error");
+            console.log(data);
+        },
+    })
+}
+
+let SavedEvents = (name, equipment, target, secondaryMuscles, instructions, gifUrl, id) => {
+
+    $.ajax({
+        url: endpoint01 + "/saved",
+        method: "POST",
+        data: the_serialized_data + "/saved",
+        success: (results)=>{
+            console.log(results);   
+            if (results.length == 0){
+                $("#manage1_message").show();
+            }   
+            for(let i=0;i< results.length;i++){
+                let eventcode = results[i]["eventcode"];
+                let eventname = results[i]["eventname"];
+                let rowtemplate = `<tr><td>${eventname} 
+                <input onclick="archiveController('${eventcode}')" 
+                value="Archive" type="button" class="btn btn-primary float-right">
+                </td></tr>`;
+                $("#table-currentevents").append(rowtemplate);          
+            }       
+        },
+        error: (data)=>{
+            console.log("Unexpected error");
+            console.log(data);
+        },
+    })
+}
+
+
+
+
+
+
+let refreshCurrentEvents = (name) => {
+    $("#manage1_message").show();   //
+    let txtHeaderRow = "<tr><th>Exercise Name</th></tr>";
+    $("#table-currentevents").html(txtHeaderRow);   
+    let the_serialized_data = $("#form-currentevents").serialize();
+    console.log(the_serialized_data);
+
+    const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://exercisedb.p.rapidapi.com/exercises/bodyPart/' + bodypart + '?limit=10',
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'bb5cb38a47mshf4f178736628a8dp1694a6jsn3a930aab5204',
+            'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+        } }
+
+        //add a POST to post the exercises in sql
+        //supporting funtion
+    
+
+    $.ajax({
+        url: endpoint02 + "/events?key=bb5cb38a47mshf4f178736628a8dp1694a6jsn3a930aab5204",
+        method: "GET",
+        data: the_serialized_data,
+        success: (results)=>{
+            console.log(results);   
+            if (results.length == 0){
+                $("#manage1_message").show();
+            }   
+            for(let i=0;i< results.length;i++){
+                let eventcode = results[i]["eventcode"];
+                let eventname = results[i]["eventname"];
+                let rowtemplate = `<tr><td>${eventname} 
+                <input onclick="archiveController('${eventcode}')" 
+                value="Archive" type="button" class="btn btn-primary float-right">
+                </td></tr>`;
+                $("#table-currentevents").append(rowtemplate);          
+            }       
+        },
+        error: (data)=>{
+            console.log("Unexpected error");
+            console.log(data);
+        },
+    })
+}
+
+let exerciseController = () => {
+    $("#cards_message").hide();
+    $("#cards_items").html("");
+    let bodypart = $("#bodypart").val();
+    console.log(bodypart);
+
+    const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://exercisedb.p.rapidapi.com/exercises/bodyPart/' + bodypart + '?limit=10',
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'bb5cb38a47mshf4f178736628a8dp1694a6jsn3a930aab5204',
+            'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+        }
+    };
+    
+    //Equipment:${equipment}<br>Target:${target}<br>Secondary Muscles:${secondaryMuscles}<br><Instructions:${instructions}
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+        for(let i=0;i< response.length;i++){
+            let name = response[i]["name"];
+            console.log(name)
+            let equipment = response[i]["equipment"];
+            let target = response[i]["target"];
+            let secondaryMuscles = response[i]["secondaryMuscles"];
+            let instructions = response[i]["instructions"];
+            let gifUrl = response[i]["gifUrl"];
+            let cardtemplate = `<div class="card">
+                <div class="card-header">${name}</div>
+                <div class="card-body">
+                Equipment: ${equipment}<br>
+                Target: ${target}<br>
+                Secondary Muscles: ${secondaryMuscles}<br>
+                <Instructions: ${instructions}<br>
+                <img src="${gifUrl}" alt="${name} GIF" style="max-width: 100%; height: auto;">
+                
+                <div class="card-footer">
+                    <input onclick="SavedEvents('${name}, ${equipment}, ${target}, 
+                        ${secondaryMuscles}, ${instructions}, ${gifUrl}')" 
+                        type="button" value="Start" class="btn btn-primary">
+                  
+                    
+                </div>
+            </div>`;
+            
+            console.log(startevent)
+            $("#cards_items").append(cardtemplate);
+            console.log(cardtemplate)
+            $('#cards_items').show();
+            
+
+        }       
+    });
+
+    
+
+
+/*
+    $.ajax({
+        url: endpoint02 + "?key=bb5cb38a47mshf4f178736628a8dp1694a6jsn3a930aab5204",
+        method: "GET",
+        data: the_serialized_data,
+        success: (results)=>{
+            console.log(results);
+            if (results.length==0){
+                $("#cards_message").show();
+            }   
+            for(let i=0;i< results.length;i++){
+                let eventname = results[i]["eventname"];
+                let eventnotes = results[i]["eventnotes"];
+                let eventcode = results[i]["eventcode"];
+                let cardtemplate = `<div class="card">
+                    <div class="card-header">${eventname}</div>
+                    <div class="card-body">${eventnotes}</div>
+                    <div class="card-footer">
+                        <input 
+                        onclick="startevent('${eventcode}' )" 
+                        type="button" value="Start" class="btn btn-primary">
+                    </div>
+                </div>`;
+                $("#cards_items").append(cardtemplate);         
+            }       
+        },
+        error: (data)=>{
+            console.log("Unexpected error");
+            console.log(data);
+        },
+    })
+    */
+}
+
+
+let startevent = (eventcode) => {
+    //alert(eventcode); //shafer hates JavaScript alerts
+    //alert("Shafer hates JavaScript alerts");
+    console.log(startevent)
+    $(".content-wrapper").hide();
+    $("#div-qrcodes").show(); //change this
+    $("#event02").attr("src",endpoint02 + eventcode);
+}
+
+let addEventController = () => {
+    console.log("Hello");
+    $('#progressicon').hide();
+
+    //clear any previous messages
+    $('#addbodypart_message').html("");
+    $('#addbodypart_message').removeClass();
+
+    //first, let's do some client-side 
+    let bodypart = $("#bodypart").val();
+    console.log(bodypart)
+    if (bodypart == undefined || bodypart == "" || bodypart.trim() == "" ){
+        $('#addevent_message').html('An exercise is required.');
+        $('#addevent_message').addClass("alert alert-danger text-center");
+        return; //quit the function now!   
+    }
+    
+    // get the data off the form
+    let the_serialized_data = $("#form-addbodypart").serialize();
+    console.log(the_serialized_data);
+    $('#progressicon').show();
+
+    $.ajax({
+        url: endpoint01 + "/events",
+        method: "POST",
+        data: the_serialized_data,
+        success: (results) => {
+            console.log(results);
+            $('#progressicon').hide();
+            window.location = "./index.html"; //go back to home
+        },
+        error: (data) => {
+            console.log(data);
+            $('#progressicon').hide();
+            $('#addevent_message').html('There was an unexpected error. Please try again.');
+            $('#addevent_message').addClass("alert alert-danger text-center");  
+        }
+    });
+}
+
+let loginController = () => {
+    //clear any previous messages
+    $('#login_message').html("");
+    $('#login_message').removeClass();
+
+    //first, let's do some client-side 
+    //error trapping.
+    let username = $("#username").val();
+    let password = $("#password").val();
+    if (username == "" || password == "" ){
+        $('#login_message').html('The user name and password are both required.');
+        $('#login_message').addClass("alert alert-danger text-center");
+        return; //quit the function now!   
+    }
+
+    // get the data off the form
+    let the_serialized_data = $("#form-login").serialize();
+    console.log(the_serialized_data);
+
+    $.ajax({
+        url: endpoint01 + "/auth",
+        data: the_serialized_data,
+        method: "GET",
+        success: (results) => {
+            console.log(results);
+            //login succeeded.  Set userid.
+            localStorage.userid = results[0]['userid']; 
+            localStorage.username = results[0]['username']; 
+            $("#createdby").val(localStorage.userid);
+            $("#createdby2").val(localStorage.userid);
+            $("#createdby3").val(localStorage.userid);
+            console.log("#createdby")
+
+
+            //manage the appearence of things...
+            $('#login_message').html('');
+            $('#login_message').removeClass();
+            $('.secured').removeClass('locked');
+            $('.secured').addClass('unlocked');
+            $('#div-login').hide(); //hide the login page
+            $("#container-3col").hide(); //hide the 3 column container
+            $("#container-2col").show(); //show the 2 column container
+            //$('#div-cards').show();   //show the default page
+            // refresh the cards page
+            $("#div-addexercise").show(); 
+            //cardsController();
+        },
+        error: (data) => {
+            console.log(data) 
+            // login failed.  Remove userid 
+            localStorage.removeItem("userid");
+            $('#login_message').html("Login Failed. Try again.");
+            $('#login_message').addClass("alert alert-danger text-center");
+        }
+    })
+  //scroll to top of page
+  $("html, body").animate({ scrollTop: "0px" });
+};
+    let MakeAccountController = () => { 
+        $('#MakeAccount_message').html(""); 
+        $('#MakeAccount_message').removeClass();
+
+        let firstname = $("#firstname").val(); 
+        let lastname = $("#lastname").val(); 
+        let username2 = $("#username2").val(); 
+        let password2 = $("#password2").val(); 
+        let confirmation = $("#confirmation").val(); 
+        let email = $("#email").val();
+
+        if (firstname == ""){ 
+            $('#MakeAccount_message').html("First name is required.");
+            $('#MakeAccount_message').addClass("alert alert-danger text-center");
+            return;
+        } else if (lastname == ""){ 
+            $('#MakeAccount_message').html("Last name is required."); 
+            $('#MakeAccount_message').addClass("alert alert-danger text-center");
+            return;
+        } else if (username2 == ""){  
+            $('#MakeAccount_message').html("Username is required.");
+            $('#MakeAccount_message').addClass("alert alert-danger text-center");
+            return;
+        } else if (password2 == ""){ 
+            $('#MakeAccount_message').html("Password is required.");
+            $('#MakeAccount_message').addClass("alert alert-danger text-center");
+            return;
+        } else if (confirmation != password2){ 
+            $('#MakeAccount_message').html("Password and confirmation password must match."); 
+            $('#MakeAccount_message').addClass("alert alert-danger text-center");
+            return;
+        } else if(email == ""){ 
+            $('#MakeAccount_message').html("Email is required.");
+            $('#MakeAccount_message').addClass("alert alert-danger text-center");
+            return;
+    }; 
+
+        let the_serialized_data= $("#form-signup").serialize(); 
+        console.log(the_serialized_data); 
+        
+        $.ajax({ 
+            "url": endpoint01 + "/users", 
+            "data": the_serialized_data, 
+            "method": "POST", 
+            "success": (results) =>{ 
+            console.log(results)
+
+            $(".content-wrapper").hide();   
+            $("#div-login").show(); 
+            $("#username").val(username2); 
+            $("#password").val(password2); 
+    }, 
+            "error": (data)=>{ 
+            console.log(data)
+            $('#MakeAccount_message').html("Unexpected error. Try again."); 
+            $('#MakeAccount_message').addClass("alert alert-danger text-center"); 
+        } 
+    }); 
+}
+
+  
+
+
+//document ready section
+$(document).ready( () => {
+
+    /* ----------------- start up navigation -----------------*/    
+    /* controls what gets revealed when the page is ready     */
+
+    /* this reveals the default page */
+    if (localStorage.userid){
+        //there is a session
+        $("#container-3col").hide();
+        $("#container-2col").show();
+        $(".secured").removeClass("locked");        
+        //show the default div
+        $("#div-addexercise").show();     
+        //assign a value to the createdby tags
+        $("#createdby").val(localStorage.userid);
+        $("#createdby2").val(localStorage.userid);
+        $("#createdby3").val(localStorage.userid);
+        console.log("#createdby")
+
+        // refresh the data
+        //cardsController();
+    }
+    else {
+        //there is no sessionm
+        $("#container-3col").show()
+        $("#container-2col").hide()
+        $(".secured").removeClass("unlocked");
+        $(".secured").addClass("locked");
+        //show the login div
+        $("#div-login").show();
+    }
+
+    /* ------------------  basic navigation -----------------*/ 
+    /* this controls navigation - show / hide pages as needed */
+    
+    /* what happens if the link-home anchor tag is clicked? */
+    $('#link-home').click( () => {
+        // Force the page to refresh
+        window.location = "./index.html";
+    });
+
+    /* links on the left hand menu */   
+    
+    /* what happens if the link-cards anchor tag is clicked? */
+    $('#link-cards').click( () => {
+        $(".content-wrapper").hide();   /* hide all content-wrappers */
+        $("#div-cards").show(); /* show the chosen content wrapper */
+    });
+        
+    /* what happens if the link-adde anchor tag is clicked? */
+    $('#link-addexercise').click( () => {
+        $(".content-wrapper").hide();   
+        $("#div-addexercise").show(); 
+    });
+
+    /* what happens if the link-manage anchor tag is clicked? */
+    $('#link-manage').click( () => {
+        manageController();
+    });
+
+    /* what happens if any of the navigation links are clicked? */
+    $('.nav-link').click( () => {
+        $("html, body").animate({ scrollTop: "0px" }); /* scroll to top of page */
+    });
+
+    /* what happens if the login button is clicked? */
+    $('#btnLogin').click( () => {
+        loginController();
+    });
+
+    $('#btnSignup').click( () => {
+        $(".content-wrapper").hide();   
+        $("#div-signup").show(); 
+    });
+
+    /* what happens if the btnCancel button is clicked? */
+    $('#btnCancel').click( () => {
+        $(".content-wrapper").hide();   
+        $("#div-login").show(); 
+    });
+
+    /* what happens if the btnMakeaccount button is clicked? */
+    $('#btnMakeAccount').click( () => {
+        $(".content-wrapper").hide();   
+        $("#div-signup").show(); 
+        MakeAccountController();
+    });
+
+    /* what happens if the logout link is clicked? */
+    $('#link-logout').click( () => {
+        // First ... remove userid from localstorage
+        localStorage.removeItem("userid");
+        // Now force the page to refresh
+        window.location = "./index.html";
+    });
+
+    /* buttons */
+    $('#btn-cancelexercise').click( () => {
+        // Force the page to refresh
+        window.location = "./index.html";
+    });
+
+    $('#btn-addexercise').click( () => {
+        console.log('Add Exercise button clicked');
+        exerciseController();
+    });
+
+    function moveToCurrentEvents(button) {
+        // Get the parent row (table row)
+        let row = button.closest('tr');
+    
+        // Remove the row from the archived events table
+        row.parentNode.removeChild(row);
+    
+        // Append the row to the current events table
+        let currentEventsTable = document.getElementById('table-currentevents');
+        currentEventsTable.appendChild(row);
+    }
+    
+    function moveToCurrentEvents(button) {
+        console.log('Button clicked:', button);
+        let row = button.closest('tr');
+        console.log('Row to move:', row);
+    
+        // Rest of the function code
+    }
+
+}); /* end the document ready event*/
